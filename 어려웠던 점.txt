@@ -1,0 +1,63 @@
+NullReferenceException: Object reference not set to an instance of an object
+BaseController.Movement (UnityEngine.Vector2 direction) (at Assets/Scripts/Entity/BaseController.cs:95)
+BaseController.FixedUpdate () (at Assets/Scripts/Entity/BaseController.cs:65)
+
+떠도 플레이는 되는데 어떻게 고쳐야할지 감이안옴...
+
+천사에게 가면 이펙트가 터지는 것을 구현하려고했는데
+위치에 들어가고 이펙트가 터진다고 디버그까지 되는데
+이펙트가 안나옴 왜애ㅐㅐㅐ
+
+using UnityEngine;
+
+public class EffectTrigger : MonoBehaviour
+{
+
+    public GameObject effectPrefab;
+    public string playerTag = "Player";
+    private bool hasTriggered = false;
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag(playerTag) && !hasTriggered)
+        {
+            Debug.Log("플레이어가 이펙트 트리거 영역에 진입했습니다!");
+
+            if (effectPrefab != null)
+            {
+
+                Instantiate(effectPrefab, transform.position, Quaternion.identity);
+                Debug.Log("이펙트 프리팹이 할당되어 있습니다. 이펙트를 생성합니다!"); 
+
+
+                hasTriggered = true;
+            }
+            else
+            {
+                Debug.LogWarning("이펙트 프리팹이 할당되지 않았습니다!");
+            }
+        }
+    }
+}
+
+-----------------기존 코드----------------
+
+
+윗부분 같음-
+            if (effectPrefab != null)
+            {
+                // 이펙트 오브젝트를 생성하고 참조를 가져옵니다.
+                GameObject spawnedEffectObject = Instantiate(effectPrefab, other.transform.position, Quaternion.identity); 
+                // 생성된 오브젝트에서 ParticleSystem 컴포넌트를 가져옵니다.
+                ParticleSystem ps = spawnedEffectObject.GetComponent<ParticleSystem>();
+
+                if (ps != null)
+                {
+                    ps.Play(); // 명시적으로 파티클 시스템 재생 명령
+                    Debug.Log("이펙트 파티클 시스템 재생 명령 호출됨!");
+                }
+
+밑에도 비슷함
+
+수정코드------------------------------------------- 된다!!!!!!!!!!!
+-> 명확하게 불러오는 작업을 추가해줌

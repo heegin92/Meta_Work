@@ -44,7 +44,7 @@ public class BaseController : MonoBehaviour
     // 주로 초기화 로직에 사용됩니다.
     protected virtual void Start()
     {
-        // 이 기본 클래스에서는 특별한 초기화가 없습니다.
+        
     }
 
     // 매 프레임마다 호출됩니다. (프레임 레이트에 따라 다름)
@@ -105,8 +105,7 @@ public class BaseController : MonoBehaviour
         // z축 회전 값이 90도를 초과하면 캐릭터가 왼쪽을 바라보는 것으로 간주합니다.
         bool ifLeft = Mathf.Abs(rotZ) > 90f;
 
-        // characterRenderer는 아마도 spriteRenderer의 오타일 것입니다.
-        // 캐릭터의 스프라이트를 좌우 반전시킵니다.
+
         spriteRenderer.flipX = ifLeft;
 
         // 무기 피봇이 설정되어 있다면 무기를 회전시킵니다.
